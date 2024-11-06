@@ -67,20 +67,25 @@ public class LinkedList<T> implements List<T> {
     }
 
     public T mostFrequentElement() {
-        HashMap<T, Integer> frequencyMap = new HashMap<>();
-        Node<T> temp = head;
-        T mostFrequent = null;
-        int maxFrequency = 0;
-
-        while (temp != null) {
-            frequencyMap.put(temp.data, frequencyMap.getOrDefault(temp.data, 0) + 1);
-            if (frequencyMap.get(temp.data) > maxFrequency) {
-                maxFrequency = frequencyMap.get(temp.data);
-                mostFrequent = temp.data;
+        T mfe = null;
+        int max = 0;
+        Node<T> p = head;
+        while (p != null) {
+            Node<T> q = p;
+            int count = 0;
+            while (q != null) {
+                if (q.data.equals(p.data)) {
+                    count++;
+                }
+                q = q.next;
             }
-            temp = temp.next;
+            if (count > max) {
+                max = count;
+                mfe = p.data;
+            }
+            p = p.next;
         }
-
-        return mostFrequent;
+        return mfe;
     }
+
 }
