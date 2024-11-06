@@ -6,12 +6,15 @@ public class ArrayList<T> implements List<T> {
     private int current;
     private T[] nodes;
 
-    public ArrayList(int n) {
-        maxsize = n;
-        size = 0;
-        current = -1;
-        nodes = (T[]) new Object[n];
+   
+    @SuppressWarnings("unchecked")
+	public ArrayList(int n) {
+        this.maxsize = n;
+        this.size = 0;
+        this.current = -1;
+        this.nodes = (T[]) new Object[n];
     }
+
 
     public boolean full() {
         return size == maxsize;

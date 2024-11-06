@@ -1,6 +1,6 @@
 package com.example.project;
 
-import java.util.HashMap;
+
 
 public class LinkedList<T> implements List<T> {
     private Node<T> head;
