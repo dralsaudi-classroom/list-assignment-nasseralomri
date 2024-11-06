@@ -7,7 +7,7 @@ public class ArrayList<T> implements List<T> {
     private T[] nodes;
 
    
-    @SuppressWarnings("unchecked")
+
 	public ArrayList(int n) {
         this.maxsize = n;
         this.size = 0;
