@@ -13,7 +13,7 @@ public class LinkedList<T> implements List<T> {
     }
 
     public boolean last() {
-        return current.next == null;
+        return current != null && current.next == null;
     }
 
     public boolean full() {
@@ -25,25 +25,29 @@ public class LinkedList<T> implements List<T> {
     }
 
     public void findNext() {
-        current = current.next;
+        if (current != null) {
+            current = current.next;
+        }
     }
 
     public T retrieve() {
-        return current.data;
+        return current != null ? current.data : null;
     }
 
     public void update(T e) {
-        current.data = e;
+        if (current != null) {
+            current.data = e;
+        }
     }
 
     public void insert(T e) {
+        Node<T> newNode = new Node<>(e);
         if (empty()) {
-            current = head = new Node<>(e);
+            head = current = newNode;
         } else {
-            Node<T> tmp = current.next;
-            current.next = new Node<>(e);
-            current = current.next;
-            current.next = tmp;
+            newNode.next = current.next;
+            current.next = newNode;
+            current = newNode;
         }
     }
 
@@ -65,27 +69,28 @@ public class LinkedList<T> implements List<T> {
     }
 
     public T mostFrequentElement() {
+        if (head == null) return null;
+
         T mfe = null;
-        int max = 0;
-        Node<T> p = head;
+        int maxCount = 0;
+        Node<T> outer = head;
 
-        while (p != null) {
-            Node<T> q = p;
+        while (outer != null) {
             int count = 0;
-
-            while (q != null) {
-                if (q.data.equals(p.data)) {
+            Node<T> inner = head;
+            while (inner != null) {
+                if (inner.data.equals(outer.data)) {
                     count++;
                 }
-                q = q.next;
+                inner = inner.next;
             }
 
-            if (count > max) {
-                max = count;
-                mfe = p.data;
+            if (count > maxCount) {
+                maxCount = count;
+                mfe = outer.data;
             }
 
-            p = p.next;
+            outer = outer.next;
         }
 
         return mfe;
