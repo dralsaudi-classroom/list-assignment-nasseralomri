@@ -1,6 +1,6 @@
 package com.example.project;
 
-public class DLL<T> {
+public class DLL<T> implements List<T> {
     private DLLNode<T> head;
     private DLLNode<T> current;
     private int size;
@@ -106,5 +106,5 @@ public class DLL<T> {
         p.next = q;
         q.previous = p;
         current = head;
-    }}
-
+    }
+}
