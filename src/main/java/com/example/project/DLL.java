@@ -3,11 +3,9 @@ package com.example.project;
 public class DLL<T> implements List<T> {
     private DLLNode<T> head;
     private DLLNode<T> current;
-    private int size;
 
     public DLL() {
         head = current = null;
-        size = 0;
     }
 
     public boolean empty() {
@@ -24,10 +22,6 @@ public class DLL<T> implements List<T> {
 
     public boolean full() {
         return false;
-    }
-
-    public int size() {
-        return size;
     }
 
     public void findFirst() {
@@ -57,19 +51,18 @@ public class DLL<T> implements List<T> {
     }
 
     public void insert(T val) {
-        DLLNode<T> tmp = new DLLNode<>(val);
+        DLLNode<T> newNode = new DLLNode<>(val);
         if (empty()) {
-            current = head = tmp;
+            head = current = newNode;
         } else {
-            tmp.next = current.next;
-            tmp.previous = current;
+            newNode.next = current.next;
             if (current.next != null) {
-                current.next.previous = tmp;
+                current.next.previous = newNode;
             }
-            current.next = tmp;
-            current = tmp;
+            current.next = newNode;
+            newNode.previous = current;
+            current = newNode;
         }
-        size++;
     }
 
     public void remove() {
@@ -86,25 +79,28 @@ public class DLL<T> implements List<T> {
         }
         if (current != null) {
             current = current.next != null ? current.next : head;
-            size--;
         }
     }
 
     public void removeBetween(T e1, T e2) {
-        DLLNode<T> p = head;
-        while ((p != null) && (!p.data.equals(e1))) {
-            p = p.next;
-        }
-        if (p == null) return;
+        DLLNode<T> start = head;
 
-        DLLNode<T> q = p.next;
-        while ((q != null) && (!q.data.equals(e2))) {
-            q = q.next;
+        // Find node with data equal to e1
+        while (start != null && !start.data.equals(e1)) {
+            start = start.next;
         }
-        if (q == null) return;
+        if (start == null) return;  // e1 not found
 
-        p.next = q;
-        q.previous = p;
-        current = head;
+        DLLNode<T> end = start.next;
+
+        // Find node with data equal to e2
+        while (end != null && !end.data.equals(e2)) {
+            end = end.next;
+        }
+        if (end == null) return;  // e2 not found
+
+        // Remove nodes between start and end
+        start.next = end;
+        end.previous = start;
     }
 }
