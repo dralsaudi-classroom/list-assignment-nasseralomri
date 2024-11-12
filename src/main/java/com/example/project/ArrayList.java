@@ -6,15 +6,13 @@ public class ArrayList<T> implements List<T> {
     private int current;
     private T[] nodes;
 
-   
-
-	public ArrayList(int n) {
+    @SuppressWarnings("unchecked")
+    public ArrayList(int n) {
         this.maxsize = n;
         this.size = 0;
         this.current = -1;
         this.nodes = (T[]) new Object[n];
     }
-
 
     public boolean full() {
         return size == maxsize;
@@ -33,18 +31,29 @@ public class ArrayList<T> implements List<T> {
     }
 
     public void findNext() {
-        current++;
+        if (current < size - 1) {
+            current++;
+        }
     }
 
     public T retrieve() {
+        if (current < 0 || current >= size) {
+            throw new IllegalStateException("Invalid current position.");
+        }
         return nodes[current];
     }
 
     public void update(T val) {
+        if (current < 0 || current >= size) {
+            throw new IllegalStateException("Invalid current position.");
+        }
         nodes[current] = val;
     }
 
     public void insert(T val) {
+        if (full()) {
+            throw new IllegalStateException("ArrayList is full. Cannot insert new element.");
+        }
         for (int i = size - 1; i > current; --i) {
             nodes[i + 1] = nodes[i];
         }
@@ -54,13 +63,17 @@ public class ArrayList<T> implements List<T> {
     }
 
     public void remove() {
+        if (current < 0 || current >= size) {
+            throw new IllegalStateException("Invalid current position.");
+        }
         for (int i = current + 1; i < size; i++) {
             nodes[i - 1] = nodes[i];
         }
         size--;
-        if (size == 0)
+        if (size == 0) {
             current = -1;
-        else if (current == size)
+        } else if (current == size) {
             current = 0;
+        }
     }
 }
